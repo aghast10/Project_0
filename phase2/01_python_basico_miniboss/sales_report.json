@@ -1,0 +1,32 @@
+{
+    "total sales": 9,
+    "total revenue": 1161.95,
+    "sales by category": [
+        {
+            "category": "Periféricos",
+            "units sold": 8.0
+        },
+        {
+            "category": "Computadoras",
+            "units sold": 1.0
+        }
+    ],
+    "best selling product": {
+        "product": "Mouse",
+        "units sold": 4.0
+    },
+    "daily billing": [
+        {
+            "date": "2025-07-01",
+            "billing": 107.94999999999999
+        },
+        {
+            "date": "2025-07-02",
+            "billing": 1299.97
+        },
+        {
+            "date": "2025-07-03",
+            "billing": 15.99
+        }
+    ]
+}
