@@ -79,10 +79,19 @@ class EspacioFactory:
             return SalaReuniones(*args)
         elif tipo == "oficinaprivada":
             return OficinaPrivada(*args)
-        elif tipo == "admin":
-            return AdministradorReservas()
         else:
             raise ValueError("Tipo desconocido")
+
+
+class Reserva:
+    def __init__(self, usuario, espacio, fecha_inicio, fecha_fin):
+        self.usuario = usuario
+        self.espacio = espacio
+        self.fecha_inicio = fecha_inicio
+        self.fecha_fin = fecha_fin
+
+    def __str__(self):
+        return f"Reserva de {self.usuario} en {self.espacio.get_nombre()} del {self.fecha_inicio} al {self.fecha_fin}"
 
 
 class AdministradorReservas():
@@ -99,7 +108,7 @@ class AdministradorReservas():
             raise ValueError(f"El espacio '{espacio.get_nombre()}' no está disponible para reservas.")
         # Si está disponible, se realiza la reserva
         espacio.set_disponible(False)  # Opcional: marcar el espacio como no disponible
-        return usuario, espacio, fecha_inicio, fecha_fin
+        return Reserva(usuario, espacio, fecha_inicio, fecha_fin)
 
 factory = EspacioFactory()
 
@@ -107,15 +116,16 @@ factory = EspacioFactory()
 
 sala1 = factory.crear_espacio("salareuniones",1,"sala1",10,True, ["mesa","silla"], True)
 print(sala1.equipamiento) #type: ignore
-admin1 = factory.crear_espacio("admin")
+admin1 = AdministradorReservas()
 
 escritorio1 = factory.crear_espacio("escritorio",2,"escritorio1",5,True)
-escritorio1.set_disponible(False)#type: ignore
-print(admin1.crear_reserva("Ana", #type: ignore
+escritorio1.set_disponible(False)
+print(admin1.crear_reserva(
+    "Ana", 
     sala1, 
     "2025-08-05", 
     "2025-08-05"
 ))
 print(sala1)
-print(escritorio1.get_disponible())#type: ignore
+print(escritorio1.get_disponible())
 print(sala1 == escritorio1)
