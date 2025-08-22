@@ -8,8 +8,8 @@ from pydantic import BaseModel, EmailStr, field_validator, HttpUrl, ValidationEr
 from decimal import Decimal
 
 
-if os.path.exists('phase2/04_api_requests/02_user_array.json'):
-    with open('phase2/04_api_requests/02_user_array.json',"r", encoding="utf-8") as f:
+if os.path.exists('phase2/apis/02_user_array.json'):
+    with open('phase2/apis/02_user_array.json',"r", encoding="utf-8") as f:
             user_array = json.load(f)
 else:
     url = "https://jsonplaceholder.typicode.com/users"  # endpoint seguro para pruebas
@@ -17,7 +17,7 @@ else:
     user_array = []
     user_array.append(r.json())
     user_array = user_array[0]
-    with open("phase2/04_api_requests/02_user_array.json", "w", encoding="utf-8") as f:
+    with open("phase2/apis/02_user_array.json", "w", encoding="utf-8") as f:
         json.dump(user_array, f, indent=4, ensure_ascii=False)
 
 user_array_names = [i['name'] for i in user_array]
@@ -108,12 +108,12 @@ for i in new_user_array:
         errors.append(e) #guardamos los errores en una lista de errores
 
 #guardamos a un archivo json
-with open("phase2/04_api_requests/02_validated_user_array.json", "w", encoding="utf-8") as f:
+with open("phase2/apis/02_validated_user_array.json", "w", encoding="utf-8") as f:
             json.dump(validated_user_array_json, f, indent=4) #type: ignore
 print(f"processed_at: {datetime.now()}")
 
 ##Guardamos los users en una base de datos de sqlite
-with sqlite3.connect("phase2/03_sqlite_postgresql_minions/mina_de_datos.db") as conn:
+with sqlite3.connect("phase2/sql/mina_de_datos.db") as conn:
     cur = conn.cursor()
     cur.execute ("PRAGMA foreign_keys = ON;")
     cur.execute("""
