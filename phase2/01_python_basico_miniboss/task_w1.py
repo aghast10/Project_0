@@ -12,7 +12,7 @@ from functools import reduce
 class WrongTimeFormat(Exception):
     pass
 try:
-    with open('sales.csv', newline='') as f:
+    with open('phase2/01_python_basico_miniboss/sales.csv', newline='') as f:
         reader = csv.DictReader(f)
         products = []
         for row in reader:
@@ -42,23 +42,26 @@ try:
     #general summary:
     total_sales = sum([int(i["quantity"]) for i in products])
     total_revenue = sum([float(i["price"]) for i in products])
+    print(total_revenue)
 
     #sales by category:
     categories = {i["category"] for i in products}
     gen = operator(categories, "category", "quantity")
     sales_by_category = [{"category": category, "units sold": next(gen)} for category in categories]
-
+    print(sales_by_category)
     #best-selling product:
     items = {i["product"] for i in products}
     gen = operator(items, "product", "quantity")
     product_ranking = sorted([[item, next(gen)] for item in items], key = lambda x: x[1], reverse = True)
     best_selling_product = {"product": product_ranking[0][0], "units sold": product_ranking[0][1]}
-
+    print(best_selling_product)
     #revenue per day:
     days = sorted({i["date"] for i in products})
 
     gen = billing() #this is necessary
     daily_billing = [{"date": day, "billing": next(gen)} for day in days] 
+    for i in daily_billing:
+        print(f"{i["date"]} -- {i["billing"]}")
     #if you put next(billing()) instead of next(gen), a new generator would be created and only the first value would be given
 
     json_structure = {"total sales": total_sales, 
