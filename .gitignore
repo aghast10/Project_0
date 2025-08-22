@@ -7,3 +7,4 @@ phase2/01_python_basico_miniboss/sales_report.json
 phase1/miniboss1/memory.json
 phase2/02_poo_minions/config_singleton.json
 phase2/03_sqlite_postgresql_minions/mina_de_datos.db
+phase2/03_sqlite_postgresql_minions/reporte_misiones.csv
