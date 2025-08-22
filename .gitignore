@@ -9,3 +9,6 @@ phase2/oop/miniboss/minions/config_singleton.json
 phase2/sql/mina_de_datos.db
 phase2/sql/reporte_misiones.csv
 phase2/sql/semana4_mina_registros.py
+phase2/apis/__pycache__/
+phase2/__pycache__
+__pycache__
