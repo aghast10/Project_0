@@ -8,7 +8,8 @@ import os
 import pickle
 
 user_info = []
-if os.path.exists("minion5.csv"):
+## si habia información en minion5.csv, la añade a la lista user_info para que no se pierda al sobrescribir
+if os.path.exists("minion5.csv"): 
     with open('minion5.csv', newline='') as f:
         reader = csv.DictReader(f)
         user_info = [row for row in reader]
