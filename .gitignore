@@ -1,1 +1,9 @@
 phase2/03_sqlite_postgresql_minions/semana4_mina_registros.py
+venv/
+phase2/04_api_requests/02_user_array.json
+phase2/04_api_requests/02_validated_user_array.json
+phase2/04_api_requests/01_tarea_requests.json
+phase2/01_python_basico_miniboss/sales_report.json
+phase1/miniboss1/memory.json
+phase2/02_poo_minions/config_singleton.json
+phase2/03_sqlite_postgresql_minions/mina_de_datos.db
