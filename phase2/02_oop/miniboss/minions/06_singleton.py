@@ -29,7 +29,7 @@ import json
 
 class ConfigManager:
     _instance = None
-    def __new__(cls, config_file = "config_singleton.json"): #los singleton usan __new__(cls), que antecede a __init__
+    def __new__(cls, config_file = "phase2/02_oop/minions/config_singleton.json"): #los singleton usan __new__(cls), que antecede a __init__
         if cls._instance is None: 
             cls._instance = super().__new__(cls)
             cls._instance._load_config(config_file)

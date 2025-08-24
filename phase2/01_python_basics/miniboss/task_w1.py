@@ -12,7 +12,7 @@ from functools import reduce
 class WrongTimeFormat(Exception):
     pass
 try:
-    with open('phase2/01_python_basico_miniboss/sales.csv', newline='') as f:
+    with open('phase2/01_python_basics/miniboss/sales.csv', newline='') as f:
         reader = csv.DictReader(f)
         products = []
         for row in reader:
@@ -71,7 +71,7 @@ try:
             "daily billing": daily_billing
             }
 
-    with open("sales_report.json", "w", encoding="utf-8") as f:
+    with open("phase2/01_pyhton_basics/miniboss/sales_report.json", "w", encoding="utf-8") as f:
         json.dump(json_structure, f, indent=4, ensure_ascii=False)
 
 except KeyError:

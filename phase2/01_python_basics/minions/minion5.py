@@ -10,7 +10,7 @@ import pickle
 user_info = []
 ## si habia información en minion5.csv, la añade a la lista user_info para que no se pierda al sobrescribir
 if os.path.exists("minion5.csv"): 
-    with open('minion5.csv', newline='') as f:
+    with open('phase2/01_python_basics/minions/minion5.csv', newline='') as f:
         reader = csv.DictReader(f)
         user_info = [row for row in reader]
 
@@ -23,22 +23,22 @@ while True:
         user_info.pop()
         break
 
-with open('minion5.csv', 'w', newline='') as f:
+with open('phase2/01_python_basics/minions/minion5.csv', 'w', newline='') as f:
     campos = ['name', 'age', 'email']
     writer = csv.DictWriter(f, fieldnames=campos)
     writer.writeheader()
     for i in user_info:
         writer.writerow(i)
 
-with open('minion5.csv', newline='') as f:
+with open('phase2/01_python_basics/minions/minion5.csv', newline='') as f:
     reader = csv.DictReader(f)
     loaded_user = [row for row in reader]
     with open("minion5.json", "w", encoding="utf-8") as f:
         json.dump(loaded_user, f, indent=4, ensure_ascii=False)
 
-with open("minion5.dat", "wb") as f:
+with open("phase2/01_python_basics/minions/minion5.dat", "wb") as f:
     pickle.dump(loaded_user, f)
 
-with open("minion5.dat", "rb") as f:
+with open("phase2/01_python_basics/minions/minion5.dat", "rb") as f:
     datos_recuperados = pickle.load(f)
     print(datos_recuperados)

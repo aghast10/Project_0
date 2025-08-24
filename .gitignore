@@ -12,3 +12,13 @@ phase2/sql/semana4_mina_registros.py
 phase2/apis/__pycache__/
 phase2/__pycache__
 __pycache__
+phase2/pandas_numpy/squeleton.py
+phase2/02_oop/miniboss/minions/config_singleton.json
+phase2/01_python_basics/miniboss/sales_report.json
+phase2/01_python_basics/miniboss/sales.csv
+phase2/04_apis/01_tarea_requests.json
+phase2/04_apis/02_user_array.json
+phase2/03_sql/reporte_misiones.csv
+phase2/04_apis/02_validated_user_array.json
+phase2/03_sql/mina_de_datos.db
+phase2/03_sql/semana4_mina_registros.py
