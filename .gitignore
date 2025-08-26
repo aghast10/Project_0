@@ -22,3 +22,7 @@ phase2/03_sql/reporte_misiones.csv
 phase2/04_apis/02_validated_user_array.json
 phase2/03_sql/mina_de_datos.db
 phase2/03_sql/semana4_mina_registros.py
+*.json
+*.csv
+*.db   
+*.pyc

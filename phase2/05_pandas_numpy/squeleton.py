@@ -9,7 +9,7 @@ BASE_DIR = Path('phase2/05_pandas_numpy')
 EXPORT_DIR = BASE_DIR / 'exports'
 EXPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-USERS_JSON = Path('phase2/04_api_requests/02_validated_user_array.json')
+USERS_JSON = Path('phase2/04_apis/02_validated_user_array.json')
 
 np.random.seed(42)
 
@@ -114,7 +114,7 @@ agg_user_cat = (
 top_categories = (
     transactions.groupby('category')['amount']
     .agg(total='sum', media='mean', n='size')
-    .sort_values('total', ascending=False)
+    .sort_values('total', ascending=False) #type: ignore
     .reset_index()
 )
 
