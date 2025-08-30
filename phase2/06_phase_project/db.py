@@ -34,4 +34,9 @@ with sqlite3.connect(FORECAST_DATABASE) as conn:
 now_tag = datetime.now().strftime('%d%m%Y')
 forecasted_hottest_days = forecast_daily_df.sort_values('temperature_2m_max', ascending=False).iloc[:11,[0,2,3]].reset_index()
 forecasted_hottest_days.to_csv(EXPORT_DIR/f"forecasted_hottest_days{now_tag}.csv", index=False)
-    
+
+hottest_days_2024 = forecast_annually_df.sort_values('temperature_2m_max', ascending=False).iloc[:11,[0,2,5]].reset_index()
+rainiest_days_2024 = forecast_annually_df.sort_values('rain_sum', ascending=False).iloc[:11,[0,4,5]].reset_index()
+
+print(hottest_days_2024)
+print(rainiest_days_2024)    

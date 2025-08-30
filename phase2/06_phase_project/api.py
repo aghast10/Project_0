@@ -69,23 +69,46 @@ class ApiRequest:
 
         return forecast_hourly
     
-    def forecast_annually_daily_list(self, c, year):
-        coordinates = ApiRequest.geocode(self, c)
+    def forecast_annually_daily_list(self, city, year):
         from paths import url3
-        r = requests.get(
-        url3,
-        params = {
-            "latitude": coordinates[0],
-	        "longitude": coordinates[1],
-            "start_date": f"{year}-01-01",
-            "end_date": f"{year}-12-31",
-            "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum", "rain_sum"],
-        },
-        headers = {"Accept": "application/json"},
-        timeout=1
-        )
-        annually_daily_forecast = r.json()
-        return annually_daily_forecast['daily']
+        annually_forecast ={
+                'time':[], 
+                'temperature_2m_min':[], 
+                'temperature_2m_max':[], 
+                'precipitation_sum':[],
+                'rain_sum':[],
+                'city': []
+        }
+
+        for city in self.cities:
+            coordinates = ApiRequest.geocode(self, city)
+            r = requests.get(
+                url3,
+                params = {
+                    "latitude": coordinates[0],
+	                "longitude": coordinates[1],
+                    "start_date": f"{year}-01-01",
+                    "end_date": f"{year}-12-31",
+                    "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum", "rain_sum"],
+                },
+            headers = {"Accept": "application/json"},
+            timeout=1
+            )
+            annually_forecast_raw = r.json()
+    
+            for i in annually_forecast_raw['daily']['time']:
+                annually_forecast['time'].append(i)
+            for i in annually_forecast_raw['daily']['temperature_2m_min']:
+                annually_forecast['temperature_2m_min'].append(i)
+            for i in annually_forecast_raw['daily']['temperature_2m_max']:
+                annually_forecast['temperature_2m_max'].append(i)
+                annually_forecast['city'].append(city)
+            for i in annually_forecast_raw['daily']['precipitation_sum']:
+                annually_forecast['precipitation_sum'].append(i)
+            for i in annually_forecast_raw['daily']['rain_sum']:
+                annually_forecast['rain_sum'].append(i)
+        
+        return annually_forecast
 
 
 if __name__ == '__main__':
