@@ -36,7 +36,7 @@ while check == "":
         print("Remaining:", r.headers.get("X-Rate-Limit-Remaining"))
         if r.json() not in tasks:
             tasks.append(r.json())
-            with open("phase2/apis/01_tarea_requests.json", "w", encoding="utf-8") as f:
+            with open("phase2/04_apis/01_tarea_requests.json", "w", encoding="utf-8") as f:
                 json.dump(tasks, f, indent=4, ensure_ascii=False)
     except requests.exceptions.Timeout:
         print("La petición tardó demasiado y fue cancelada")
