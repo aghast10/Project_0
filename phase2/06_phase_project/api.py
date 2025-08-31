@@ -1,7 +1,7 @@
 import requests
 
 class ApiRequest:
-    def __init__(self, cities):
+    def __init__(self, cities: list):
         self.cities = cities
     
     def geocode(self, c):
@@ -64,7 +64,7 @@ class ApiRequest:
 
         return forecast_hourly
     
-    def forecast_annually_daily_list(self, year):
+    def forecast_annually_daily_list(self, year:int):
         from paths import url3
         annually_forecast ={
                 'time':[], 
