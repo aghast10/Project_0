@@ -37,10 +37,10 @@ class ApiRequest:
         forecast_raw = r.json()
         return forecast_raw
 
-    def forecast_daily_list(self, cities):
+    def forecast_daily_list(self):
 
         forecast_daily ={'time':[], 'temperature_2m_min':[], 'temperature_2m_max':[], 'city': []}
-        for city in cities:
+        for city in self.cities:
             forecast_raw = ApiRequest.request_forecast_raw(self, c = city)
             for i in forecast_raw['daily']['time']:
                 forecast_daily['time'].append(i)
@@ -52,9 +52,9 @@ class ApiRequest:
         
         return forecast_daily
     
-    def forecast_hourly_list(self, cities):
+    def forecast_hourly_list(self):
         forecast_hourly = {'time':[], 'temperature_2m':[], 'city': []}
-        for city in cities:
+        for city in self.cities:
             forecast_raw = ApiRequest.request_forecast_raw(self, c = city)
             for i in forecast_raw ['hourly']['time']:
                 forecast_hourly['time'].append(i)
@@ -64,7 +64,7 @@ class ApiRequest:
 
         return forecast_hourly
     
-    def forecast_annually_daily_list(self, city, year):
+    def forecast_annually_daily_list(self, year):
         from paths import url3
         annually_forecast ={
                 'time':[], 
