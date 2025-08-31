@@ -1,9 +1,4 @@
 import requests
-import pandas as pd
-import json
-import sqlite3
-from paths import FORECAST_DAILY_JSON, FORECAST_HOURLY_JSON, FORECAST_DATABASE
-
 
 class ApiRequest:
     def __init__(self, cities):
@@ -109,22 +104,3 @@ class ApiRequest:
                 annually_forecast['rain_sum'].append(i)
         
         return annually_forecast
-
-
-if __name__ == '__main__':
-    cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
-    example = ApiRequest(cities)
-
-    with open(FORECAST_DAILY_JSON, "w", encoding="utf-8") as f:
-        json.dump(example.forecast_daily_list(cities), f, indent=4)
-
-    with open(FORECAST_HOURLY_JSON, "w", encoding="utf-8") as f:
-        json.dump(example.forecast_hourly_list(cities), f, indent=4)
-
-    forecast_daily_df = pd.read_json(FORECAST_DAILY_JSON)
-
-    with sqlite3.connect(FORECAST_DATABASE) as conn:
-        cur = conn.cursor()
-        forecast_daily_df.to_sql('forecast_daily', conn, if_exists='replace')
-
-    top_hottest_days = forecast_daily_df.sort_values('temperature_2m_max', ascending=False).iloc[:11,[0,2,3]].reset_index()
