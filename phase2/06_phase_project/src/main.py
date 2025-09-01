@@ -12,12 +12,9 @@ from db import pipeline
 from paths import EXPORT_DIR
 requests_cache.install_cache("cache", expire_after= 3600)
 
-def main():
-    cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
-    year = 2024
+def main(cities, year):
 
     apiobject = ApiClient(cities, year)
-
     # --------------
     # EXPORTS TO CSV
     # --------------
@@ -40,5 +37,8 @@ def main():
     print(rainiest_days_year(apiobject))
     print(rain_days_year(apiobject))
 
+
 if __name__ == "__main__":
-    main()
+    cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
+    year = 2024
+    main(cities, year)
