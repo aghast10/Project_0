@@ -19,7 +19,6 @@ class ApiClient:
 
         lat = float(r1.json()['results'][0]['latitude'])
         lon = float(r1.json()['results'][0]['longitude'])
-        
         return lat, lon #devuelve un tuple
     
     def request_forecast_raw(self, city:str) -> Dict[str, Any]:
