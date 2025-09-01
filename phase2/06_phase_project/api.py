@@ -1,47 +1,47 @@
 import requests
+from typing import Tuple, Dict, Any
+from .paths import URL_GEOCODE, URL_FORECAST, URL_ARCHIVE
 
-class ApiRequest:
+class ApiClient:
+    """Open-Meteo Client(geocoding, 
+    forecast, archive)."""
     def __init__(self, cities: list):
         self.cities = cities
     
-    def geocode(self, c):
+    def geocode(self, city:str) -> Tuple[float, float]:
         
-        from paths import url1
         r1 = requests.get(
-            url1, 
-            params={"name": c, "language":'en'}, 
+            URL_GEOCODE, 
+            params={"name": city, "language":'en'}, 
             headers = {"Accept": "application/json"},
             timeout=1
             )
 
-        latitude = r1.json()['results'][0]['latitude']
-        longitude = r1.json()['results'][0]['longitude']
-        coordinates = [latitude, longitude]
-        return coordinates
+        lat = float(r1.json()['results'][0]['latitude'])
+        lon = float(r1.json()['results'][0]['longitude'])
+        
+        return lat, lon #devuelve un tuple
     
-    def request_forecast_raw(self, c):
-        coordinates = ApiRequest.geocode(self, c)
-        from paths import url2
+    def request_forecast_raw(self, city:str) -> Dict[str, Any]:
+        lat, lon = ApiClient.geocode(self, city) #creamos un tuple que da lo que devuelva geocode
         r = requests.get(
-        url2,
+        URL_FORECAST,
         params = {
-        "latitude": coordinates[0],
-        "longitude": coordinates[1],
+        "latitude": lat,
+        "longitude": lon,
         "daily": ["temperature_2m_max", "temperature_2m_min"],
         "hourly": "temperature_2m",
         "timezone": "Europe/Berlin",
         },
-        headers = {"Accept": "application/json"},
         timeout=1
         )
-        forecast_raw = r.json()
-        return forecast_raw
+        return r.json()
 
     def forecast_daily_list(self):
 
         forecast_daily ={'time':[], 'temperature_2m_min':[], 'temperature_2m_max':[], 'city': []}
         for city in self.cities:
-            forecast_raw = ApiRequest.request_forecast_raw(self, c = city)
+            forecast_raw = ApiClient.request_forecast_raw(self, city = city)
             for i in forecast_raw['daily']['time']:
                 forecast_daily['time'].append(i)
             for i in forecast_raw['daily']['temperature_2m_min']:
@@ -55,7 +55,7 @@ class ApiRequest:
     def forecast_hourly_list(self):
         forecast_hourly = {'time':[], 'temperature_2m':[], 'city': []}
         for city in self.cities:
-            forecast_raw = ApiRequest.request_forecast_raw(self, c = city)
+            forecast_raw = ApiClient.request_forecast_raw(self, city = city)
             for i in forecast_raw ['hourly']['time']:
                 forecast_hourly['time'].append(i)
             for i in forecast_raw['hourly']['temperature_2m']:
@@ -65,7 +65,6 @@ class ApiRequest:
         return forecast_hourly
     
     def forecast_annually_daily_list(self, year:int):
-        from paths import url3
         annually_forecast ={
                 'time':[], 
                 'temperature_2m_min':[], 
@@ -76,9 +75,9 @@ class ApiRequest:
         }
 
         for city in self.cities:
-            coordinates = ApiRequest.geocode(self, city)
+            coordinates = ApiClient.geocode(self, city)
             r = requests.get(
-                url3,
+                URL_ARCHIVE,
                 params = {
                     "latitude": coordinates[0],
 	                "longitude": coordinates[1],

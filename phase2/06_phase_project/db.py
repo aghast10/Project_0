@@ -3,29 +3,19 @@ import sqlite3
 import requests_cache
 from datetime import datetime
 import pandas as pd
-from api import ApiRequest
+from api import ApiClient
 import paths
 
 requests_cache.install_cache("cache", expire_after= 3600)
 
 cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
 year = 2024
-spain_cities = ApiRequest(cities)
+default_cities = ApiClient(cities)
 
-with open(paths.FORECAST_DAILY_JSON, "w", encoding="utf-8") as f:
-    json.dump(spain_cities.forecast_daily_list(), f, indent=4)
+forecast_daily_df = pd.DataFrame(default_cities.forecast_daily_list())
+forecast_hourly_df = pd.DataFrame(default_cities.forecast_hourly_list())
+forecast_annually_df = pd.DataFrame(default_cities.forecast_annually_daily_list(year))
 
-with open(paths.FORECAST_HOURLY_JSON, "w", encoding="utf-8") as f:
-    json.dump(spain_cities.forecast_hourly_list(), f, indent=4)
-
-with open(paths.FORECAST_ANNUALLY_DAILY_JSON, "w", encoding="utf-8") as f:
-    json.dump(spain_cities.forecast_annually_daily_list(year), f, indent=4)
-
-forecast_daily_df = pd.read_json(paths.FORECAST_DAILY_JSON)
-forecast_hourly_df = pd.read_json(paths.FORECAST_HOURLY_JSON)
-forecast_annually_df = pd.read_json(paths.FORECAST_ANNUALLY_DAILY_JSON)
-
-now_tag = datetime.now().strftime('%d%m%Y')
 forecasted_hottest_days = forecast_daily_df.sort_values('temperature_2m_max', ascending=False).iloc[:11,[0,2,3]].reset_index()
 
 hottest_days_2024 = forecast_annually_df.sort_values('temperature_2m_max', ascending=False).iloc[:11,[0,2,5]].reset_index()
@@ -42,6 +32,7 @@ rain_days_2024 = rain_days_2024[['year', 'city', 'percentage']]
 # --------------
 # EXPORTS TO CSV
 # --------------
+now_tag = datetime.now().strftime('%d%m%Y')
 rainiest_days_2024.to_csv(paths.EXPORT_DIR/f"rainiest_days_{year}.csv", index=False)
 rain_days_2024.to_csv(paths.EXPORT_DIR/f"rain_days_{year}.csv", index=False)
 hottest_days_2024.to_csv(paths.EXPORT_DIR/f"hottest_days_{year}.csv", index=False)
