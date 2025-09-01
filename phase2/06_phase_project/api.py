@@ -1,13 +1,13 @@
 import requests
 from typing import Tuple, Dict, Any
-from .paths import URL_GEOCODE, URL_FORECAST, URL_ARCHIVE
+from paths import URL_GEOCODE, URL_FORECAST, URL_ARCHIVE
 
 class ApiClient:
     """Open-Meteo Client(geocoding, 
     forecast, archive)."""
-    def __init__(self, cities: list):
+    def __init__(self, cities: list, year:int):
         self.cities = cities
-    
+        self.year = year
     def geocode(self, city:str) -> Tuple[float, float]:
         
         r1 = requests.get(
@@ -64,7 +64,7 @@ class ApiClient:
 
         return forecast_hourly
     
-    def forecast_annually_daily_list(self, year:int):
+    def forecast_annually_daily_list(self):
         annually_forecast ={
                 'time':[], 
                 'temperature_2m_min':[], 
@@ -81,8 +81,8 @@ class ApiClient:
                 params = {
                     "latitude": coordinates[0],
 	                "longitude": coordinates[1],
-                    "start_date": f"{year}-01-01",
-                    "end_date": f"{year}-12-31",
+                    "start_date": f"{self.year}-01-01",
+                    "end_date": f"{self.year}-12-31",
                     "daily": ["temperature_2m_max", "temperature_2m_min", "precipitation_sum", "rain_sum"],
                 },
             headers = {"Accept": "application/json"},
