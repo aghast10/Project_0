@@ -18,6 +18,7 @@ DDL = [
         date TEXT NOT NULL,
         t_min REAL,
         t_max REAL,
+        precipitation_probability_max REAL,
         UNIQUE(location_id, date),
         FOREIGN KEY(location_id) REFERENCES locations(id)
     );
@@ -28,6 +29,7 @@ DDL = [
         location_id INTEGER NOT NULL,
         datetime TEXT NOT NULL,
         temp REAL,
+        precipitation_probability REAL,
         UNIQUE(location_id, datetime),
         FOREIGN KEY(location_id) REFERENCES locations(id)
     );
@@ -85,8 +87,9 @@ def insert_into_forecast_daily(apiobject: ApiClient):
             loc = location_id(fc['city'][i]) #fc['city'][i] devuelve el nombre de la ciudad
             t_min = fc['temperature_2m_min'][i]
             t_max = fc['temperature_2m_max'][i]
-            cur.execute("INSERT OR IGNORE INTO forecast_daily(location_id, date, t_min, t_max) VALUES(?, ?, ?, ?);",
-                        (loc, date, t_min, t_max))
+            precip_max = fc['precipitation_probability_max'][i]
+            cur.execute("INSERT OR IGNORE INTO forecast_daily(location_id, date, t_min, t_max, precipitation_probability_max) VALUES(?, ?, ?, ?, ?);",
+                        (loc, date, t_min, t_max, precip_max))
 
 def insert_into_forecast_hourly(apiobject: ApiClient):
     fc = apiobject.forecast_hourly_list() 
@@ -95,8 +98,9 @@ def insert_into_forecast_hourly(apiobject: ApiClient):
         for i, date in enumerate(fc['time']):
             loc = location_id(fc['city'][i])
             temp = fc['temperature_2m'][i]
-            cur.execute("INSERT OR IGNORE INTO forecast_hourly(location_id, datetime, temp) VALUES(?, ?, ?);",
-                        (loc, date, temp))
+            precip_prob = fc['precipitation_probability'][i]
+            cur.execute("INSERT OR IGNORE INTO forecast_hourly(location_id, datetime, temp, precipitation_probability) VALUES(?, ?, ?, ?);",
+                        (loc, date, temp, precip_prob))
 
 def insert_into_forecast_archive(apiobject: ApiClient):
     fc = apiobject.forecast_annually_daily_list()

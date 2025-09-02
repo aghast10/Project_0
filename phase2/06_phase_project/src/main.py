@@ -6,7 +6,9 @@ from transform import (
     rain_days_year,
     hottest_days_year,
     forecasted_hottest_days,
-    forecast_annually_to_df
+    forecast_annually_to_df,
+    weekly_forecast_hours,
+    weekly_forecast_days
 )
 from db import pipeline
 from paths import EXPORT_DIR
@@ -36,9 +38,17 @@ def main(cities, year):
     print(hottest_days_year(apiobject))
     print(rainiest_days_year(apiobject))
     print(rain_days_year(apiobject))
+    print(weekly_forecast_days(apiobject, 'ZARAGOZA'))
+    print(weekly_forecast_hours(apiobject, 'ZARAGOZA'))
 
 
 if __name__ == "__main__":
-    cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
+
+    '''cities = ['MADRID', 'OVIEDO', 'ZARAGOZA', 'BARCELONA', 'VALENCIA', 'SEVILLA', 'BILBAO']
     year = 2024
-    main(cities, year)
+    
+    main(cities, year)'''
+
+    apiobject = ApiClient(['ZARAGOZA'], 2024)
+    print(weekly_forecast_days(apiobject, 'ZARAGOZA'))
+    print(weekly_forecast_hours(apiobject, 'ZARAGOZA'))
